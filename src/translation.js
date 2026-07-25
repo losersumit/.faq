@@ -19,6 +19,7 @@ Instructions:
 3. Use the raw channel history (including timestamps) to resolve contextual references. If the user refers to something previously discussed (e.g., "give me that list", "how to fix it"), rewrite the query to be specific.
 4. IMPORTANT: Pay attention to the timestamps in the history. If there is a large time gap (e.g., 20+ minutes) between messages, treat it as a new conversation session. Do NOT resolve pronouns or context using messages from before the time gap unless the user explicitly references them.
 5. Respond ONLY with the final, standalone English query. Do NOT add any notes, headers, explanations, or quotes.
+6. If the current message doesnt need any use of previous context, then you can ignore the previous context and answer the question directly.
 
 Raw Channel History:
 ${rawChannelHistory}
