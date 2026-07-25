@@ -113,9 +113,12 @@ async function generateAiAnswer(question, originalQuestion, faqMatches, message,
         faqContextBlock = "No specific FAQ answer found in the database. Help the user conversationally if you can, but do NOT make up facts. Feel free to say 'I don't know' if you cannot help.";
     }
 
+    const guildName = message.guild?.name || "this VTC";
+
     const prompt = `${BASE_PERSONALITY}
 
 CURRENT USER: ${username}
+You are currently assisting a driver from ${guildName}. Don't provide them with other VTC info unless asked for.
 
 TRUSTED FAQ ANSWER CONTEXT (Source of Truth — use ALL relevant sections below):
 ${faqContextBlock}
@@ -381,6 +384,7 @@ client.on('interactionCreate', async (interaction) => {
                 author: interaction.user,
                 member: interaction.member,
                 channel: interaction.channel,
+                guild: interaction.guild,
                 attachments: new Map(),
                 reply: async (text) => {
                     await interaction.editReply(text);
