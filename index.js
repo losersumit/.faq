@@ -166,8 +166,14 @@ async function processFaqQuery(message, content, isExplicit) {
         return;
     }
 
+    // Set up an interval to continuously send the typing indicator (every 6 seconds)
+    let typingInterval;
+
     try {
         await message.channel.sendTyping();
+        typingInterval = setInterval(() => {
+            message.channel.sendTyping().catch(() => {});
+        }, 6000);
 
         // 1. Fetch raw channel history (last 40 messages) up front
         let lastMsgs = [];
@@ -258,6 +264,10 @@ async function processFaqQuery(message, content, isExplicit) {
     } catch (err) {
         console.error('[FAQ Bot Error]', err.message);
         await message.reply("Sorry, I encountered an error while processing your request.");
+    } finally {
+        if (typingInterval) {
+            clearInterval(typingInterval);
+        }
     }
 }
 
